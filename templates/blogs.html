@@ -1,0 +1,122 @@
+{% extends './base/base.html' %}
+
+{% block content%}
+
+<!-- Page content-->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Post content-->
+            <article>
+                <!-- Post header-->
+                <header class="mb-4">
+                    <!-- Post title-->
+                    <h1 class="fw-bolder mb-3 text-white">{{ single_post.title}}</h1>
+                    <!-- Post meta content-->
+                    <div class="text-light fst-italic mb-3">
+                        <i class="far fa-calendar me-1"></i>Created at {{ single_post.created_at}} 
+                        <i class="fas fa-user ms-3 me-1 "></i>by {{single_post.author}}
+                    </div>
+                    <!-- Post category-->
+                    <span class="badge bg-warning bg-opacity-20 text-dark fs-6 px-3 py-2">{{ single_post.category.category_name}}</span>
+                </header>
+                <!-- Preview image figure-->
+                <figure class="mb-4">
+                    <img class="img-fluid rounded shadow" src="{{ single_post.blog_image.url}}" alt="..." />
+                </figure>
+                <!-- Post content-->
+                <section class="mb-5">
+                    <p class="fs-5 mb-4 text-light">{{ single_post.short_description}}</p>
+                    <p class="fs-5 mb-4 text-light">{{ single_post.blog_body}}</p>
+
+                    <!-- comments -->
+                    <div class="mt-5 pt-4 border-top border-secondary">
+                        <h4 class="text-warning mb-4">Comments ({{comment_count}})</h4>
+                        {% if comments %}
+                            {% for comment in comments%}
+                                <div class="card bg-dark border-secondary mb-3">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span class="text-warning fw-bold">{{ comment.user}}</span>
+                                            <small class="text-muted">{{ comment.created_at | timesince }} ago</small>
+                                        </div>
+                                        <p class="card-text text-light mb-0">
+                                            {{comment}}
+                                        </p>
+                                    </div>
+                                </div>
+                            {% endfor%}
+                        {% else %}
+                            <p class="text-muted">No comments yet</p>
+                        {% endif%}
+                        
+                        <div class="form-group mt-4">
+                            {% if user.is_authenticated %}
+                            <form action="" method="POST">
+                                {% csrf_token%}
+                                <div class="form-group">
+                                    <textarea name="comment" class="form-control bg-dark border-secondary text-light mt-2" placeholder="Write your comment..." rows="4"></textarea>
+                                    <input type="submit" value="Post Comment" class="btn btn-warning mt-3 px-4">
+                                </div>
+                            </form>
+                            {% else %}
+                                <div class="alert alert-warning bg-warning bg-opacity-10 border-warning">
+                                    <p class="mb-0 text-info">Please <a href="{% url 'login' %}" class="text-warning fw-bold">login</a> or <a href="{% url 'register' %}" class="text-warning fw-bold">Register</a> to write comment</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </section>
+            </article>
+        </div>
+        <!-- Side widgets-->
+        <div class="col-lg-4">
+            <!-- Categories widget-->
+            <div class="card bg-dark border-warning mb-4">
+                <div class="card-header border-warning bg-warning bg-opacity-10">
+                    <h4 class="text-warning mb-0"><i class="fas fa-tags me-2"></i>Categories</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <ul class="list-unstyled mb-0">
+                                {% for cat in categories%}
+                                <li class="mb-2">
+                                    <a href="{% url 'posts_by_category' cat.id %}" class="text-light text-decoration-none d-block p-2 rounded hover-bg-warning">
+                                        <i class="fas fa-arrow-right text-warning me-2"></i>{{ cat.category_name}}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Side widget-->
+            <div class="card bg-dark border-info">
+                <div class="card-header border-info bg-info bg-opacity-10">
+                    <h4 class="text-info mb-0"><i class="fas fa-share-alt me-2"></i>Follow Us</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-light btn-sm">
+                            <i class="fab fa-github me-1"></i>GitHub
+                        </a>
+                        <a href="#" class="btn btn-outline-info btn-sm">
+                            <i class="fab fa-linkedin me-1"></i>LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.hover-bg-warning:hover {
+    background: rgba(255, 193, 7, 0.1);
+    color: #ffc107 !important;
+}
+</style>
+
+{% endblock %}

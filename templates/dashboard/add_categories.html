@@ -1,0 +1,56 @@
+{% extends '../base/base.html' %}
+
+{% block content %}
+<div class="row">
+    <!-- left sidebar -->
+    {% include './leftsidebar.html' %}
+
+    {% load crispy_forms_tags %}
+    <!-- right sidebar -->
+    <div class="col-md-9">
+        <div class="card bg-dark border-info shadow-lg">
+            <div class="card-header border-info bg-info bg-opacity-10">
+                <h3 class="text-info mb-0">
+                    <i class="fas fa-tag me-2"></i>Add New Category
+                </h3>
+            </div>
+            <div class="card-body p-4">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="text-light">
+                        {{ form | crispy }}
+                    </div>
+                    <button type="submit" class="btn btn-info px-4 py-2 fw-bold mt-3">
+                        <i class="fas fa-plus-circle me-2"></i>Create Category
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-control, .form-select {
+    background-color: #2d3748 !important;
+    border: 1px solid #4a5568 !important;
+    color: #e2e8f0 !important;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #2d3748 !important;
+    border-color: #0dcaf0 !important;
+    color: #e2e8f0 !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 202, 240, 0.25) !important;
+}
+
+.form-text {
+    color: #9ca3af !important;
+}
+
+.form-label {
+    color: #e2e8f0 !important;
+    font-weight: 500;
+}
+</style>
+
+{% endblock %}

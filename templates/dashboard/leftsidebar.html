@@ -1,0 +1,21 @@
+<div class="col-md-3">
+  <div class="nav flex-column nav-pills bg-dark border border-secondary rounded shadow-lg" aria-orientation="vertical">
+    <a href="{% url 'dashboard' %}" class="nav-link text-light py-3 {% if '/dashboard/' == request.path %} bg-warning text-dark {% else %} bg-dark {% endif %} border-bottom border-secondary">
+      <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+    </a>
+    {% if perms.auth.view_user %}
+    <a href="{% url 'users' %}" class="nav-link text-light py-3 {% if '/users/' in request.path %} bg-warning text-dark {% else %} bg-dark {% endif %} border-bottom border-secondary">
+      <i class="fas fa-users me-2"></i>Users
+    </a>
+    {% endif %}
+    <a href="{% url 'categories' %}" class="nav-link text-light py-3 {% if '/categories/' in request.path %} bg-warning text-dark {% else %} bg-dark {% endif %} border-bottom border-secondary">
+      <i class="fas fa-tags me-2"></i>Categories
+    </a>
+    <a href="{% url 'posts' %}" class="nav-link text-light py-3 {% if '/posts/' in request.path %} bg-warning text-dark {% else %} bg-dark {% endif %} border-bottom border-secondary">
+      <i class="fas fa-file-alt me-2"></i>Posts
+    </a>
+    <a href="{% url 'logout' %}" class="nav-link text-light py-3 bg-dark">
+      <i class="fas fa-sign-out-alt me-2"></i>Logout
+    </a>
+  </div>
+</div>

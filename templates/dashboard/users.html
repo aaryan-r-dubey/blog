@@ -1,0 +1,80 @@
+{% extends '../base/base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <!-- left sidebar -->
+    {% include './leftsidebar.html' %}
+
+    <!-- right sidebar -->
+    <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-warning mb-0"><i class="fas fa-users me-2"></i>All Users</h3>
+            <a href="{% url 'add_users' %}" class="btn btn-warning">
+                <i class="fas fa-plus me-2"></i>Add New User
+            </a>
+        </div>
+
+        <div class="card bg-dark border-secondary shadow-lg">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover table-borderless mb-0">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>Full Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th class="text-center">Active</th>
+                                <th class="text-center">Staff</th>
+                                <th class="text-center">Superuser</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr class="border-bottom border-secondary"> 
+                                    <th class="text-center text-light">{{ forloop.counter }}</th>
+                                    <td class="text-light fw-bold">{{ user.first_name }} {{ user.last_name }}</td>
+                                    <td class="text-light">{{ user.username }}</td>
+                                    <td class="text-light">{{ user.email }}</td>
+                                    <td class="text-center">
+                                        {% if user.is_active %}
+                                            <i class="fas fa-check-circle text-success fs-5"></i>
+                                        {% else %}
+                                            <i class="fas fa-times-circle text-danger fs-5"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        {% if user.is_staff %}
+                                            <i class="fas fa-check-circle text-success fs-5"></i>
+                                        {% else %}
+                                            <i class="fas fa-times-circle text-danger fs-5"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        {% if user.is_superuser %}
+                                            <i class="fas fa-check-circle text-success fs-5"></i>
+                                        {% else %}
+                                            <i class="fas fa-times-circle text-danger fs-5"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{% url 'edit_users' user.id %}" class="btn btn-outline-warning btn-sm me-1">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{% url 'delete_user' user.id %}" class="btn btn-outline-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

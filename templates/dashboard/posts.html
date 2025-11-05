@@ -1,0 +1,79 @@
+{% extends '../base/base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <!-- left sidebar -->
+    {% include './leftsidebar.html' %}
+
+    <!-- right sidebar -->
+    <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="text-warning mb-0"><i class="fas fa-file-alt me-2"></i>All Posts</h3>
+            <a href="{% url 'add_posts' %}" class="btn btn-warning">
+                <i class="fas fa-plus me-2"></i>Add New Post
+            </a>
+        </div>
+
+        <div class="card bg-dark border-secondary shadow-lg">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover table-borderless mb-0">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Author</th>
+                                <th>Status</th>
+                                <th class="text-center">Featured</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for post in posts %}
+                                <tr class="border-bottom border-secondary"> 
+                                    <th class="text-center text-light">{{ forloop.counter }}</th>
+                                    <td class="text-light fw-bold">{{ post.title }}</td>
+                                    <td>
+                                        <span class="badge bg-info bg-opacity-20 text-light">{{ post.category.category_name }}</span>
+                                    </td>
+                                    <td class="text-light">{{ post.author }}</td>
+                                    <td>
+                                        <span class="badge 
+                                            {% if post.status == 'published' %}bg-success
+                                            {% elif post.status == 'draft' %}bg-warning text-dark
+                                            {% else %}bg-secondary{% endif %}">
+                                            {{ post.status|title }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        {% if post.is_featured %}
+                                            <i class="fas fa-check-circle text-success fs-5"></i>
+                                        {% else %}
+                                            <i class="fas fa-times-circle text-danger fs-5"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        {% if post.author == request.user or request.user.is_staff %}
+                                            <a href="{% url 'edit_posts' post.id %}" class="btn btn-outline-warning btn-sm me-1">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{% url 'delete_posts' post.id %}" class="btn btn-outline-danger btn-sm">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        {% else %}
+                                            <span class="text-muted">—</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
